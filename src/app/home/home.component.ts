@@ -21,23 +21,72 @@ export class HomeComponent {
 
   products: Product[] = [];
 
+  totalRecords: number = 0;
+  rows: number = 5;
+
   onProductOutput(product: Product) {
     console.log(product, 'Output');
+  }
+
+  onPageChange(event: any) {
+    console.log(event.page, event.rows);
   }
 
   fetchProducts(page: number, perPage: number) {
     this.productsService
       .getProducts('http://localhost:3000/clothes', {page, perPage})
-      .subscribe((products: Products) => {
-        this.products = products.items;
+      .subscribe({
+        next: (data: Products) => {
+          this.products = data.items;
+          this.totalRecords = data.total;
+        },
+        error: (error) => {
+          console.log(error);
+        }
       })
   }
 
-  ngOnInit() {
+  deleteProducts(product: Product, id: number) {
     this.productsService
-      .getProducts('http://localhost:3000/clothes', {page: 0, perPage: 5})
-      .subscribe((products: Products) => {
-        this.products = products.items;
+      .deleteProduct(`http://localhost:3000/clothes/${id}`)
+      .subscribe({
+        next: (data: Products) => {
+          console.log(data);
+          this.fetchProducts(0, this.rows);
+        },
+        error: (error) => {
+          console.log(error);
+        }
       })
+  }
+
+  editProduct(product: Product, id: number) {
+    this.productsService.editProduct(`http://localhost:3000/clothes/${id}`, product).subscribe(
+      {
+        next: (data) => {
+          console.log(data)
+          this.fetchProducts(0, this.rows);
+        }, // consider successful requests
+        error: (error) => {
+          console.log(error)
+        }, // any response that is in range of 400s 500s is considered an error
+      });
+  }
+
+  addProduct(product: Product, id: number) {
+    this.productsService.editProduct(`http://localhost:3000/clothes/${id}`, product).subscribe(
+      {
+        next: (data) => {
+          console.log(data)
+          this.fetchProducts(0, this.rows);
+        }, // consider successful requests
+        error: (error) => {
+          console.log(error)
+        }, // any response that is in range of 400s 500s is considered an error
+      });
+  }
+
+  ngOnInit() {
+    this.fetchProducts(0, this.rows);
   }
 }
