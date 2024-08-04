@@ -13,7 +13,7 @@
     iconCancelClass="hidden"
   ></p-rating>
 
-  <div class="row">
+  <div class="row gap-O5">
     <button
       type="button"
       pButton
@@ -26,7 +26,9 @@
       pButton
       icon="pi pi-trash"
       (click)="deleteProduct()"
-      label="Delete">
+      label="Delete"
+      class="p-button-danger"
+      #deleteButton> <!-- Identify the button -->
     </button>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {Product} from "../../../types";
 import { RatingModule } from 'primeng/rating';
 import {FormsModule} from "@angular/forms";
@@ -20,6 +20,8 @@ export class ProductComponent {
   constructor(private confirmationService: ConfirmationService) {
   }
 
+  @ViewChild('deleteButton') deleteButton: any; // ViewChild automatically locate and get our button based on #deleteButton property that is set in .ts
+
   @Input() product!: Product
   @Output() edit: EventEmitter<Product> = new EventEmitter<Product>();
   @Output() delete: EventEmitter<Product> = new EventEmitter<Product>();
@@ -31,6 +33,7 @@ export class ProductComponent {
 
   confirmDelete() {
     this.confirmationService.confirm({
+      target: this.deleteButton.nativeElemet, // corresponding popup for each Product
       message: 'Are you sure you want to delete this product?',
       // on accept of this question this method will be called
       accept: () => {
@@ -40,7 +43,7 @@ export class ProductComponent {
   }
 
   deleteProduct() {
-
+    this.delete.emit(this.product);
   }
 
   ngOnInit() {

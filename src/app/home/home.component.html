@@ -22,7 +22,9 @@
     [rows]="rows"
     [totalRecords]="totalRecords"
     [rowsPerPageOptions]="[5, 10, 20]"
+    #paginator
   ></p-paginator>
+  <!-- #paginator - custom decorator for paginator -->
 </div>
 
 <!-- Edit popup -->
@@ -36,7 +38,7 @@
 
 <!-- Add popup -->
 <app-edit-popup>
-<!-- With two brackets binding: [(display)], it can also receive output events - double binding  -->
+  <!-- With two brackets binding: [(display)], it can also receive output events - double binding  -->
   [(display)]="displayAddPopup"
   (confirm)="onConfirmAdd($event)"
   header="Add Product"
