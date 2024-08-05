@@ -5,11 +5,12 @@
     pButton
     icon="pi pi-plus"
     (click)="toggleAddPopup()"
-    label="Add Product">
+    label="Add Product"
+    class="add-product-btn">
   </button>
 
   <!-- Products Section -->
-  <div class="row wrap gap-1 space-between">
+  <div class="row wrap gap-2 space-between">
     <app-product *ngFor="let product of products"
                  [product]="product"
                  (edit)="toggleEditPopup($event)"
