@@ -83,7 +83,7 @@ export class HomeComponent implements OnInit {
 
   fetchProducts(page: number, perPage: number) {
     this.productsService
-      .getProducts('http://localhost:3000/clothes', {page, perPage})
+      .getProducts('http://localhost:3000/clothes', { page, perPage })
       .subscribe({
         next: (data: Products) => {
           this.products = data.items;
