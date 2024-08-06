@@ -11,10 +11,11 @@
 
   <!-- Products Section -->
   <div class="row wrap gap-2 space-between">
-    <app-product *ngFor="let product of products"
-                 [product]="product"
-                 (edit)="toggleEditPopup($event)"
-                 (delete)="toggleDeletePopup($event)"
+    <app-product
+      *ngFor="let product of products"
+      [product]="product"
+      (edit)="toggleEditPopup($event)"
+      (delete)="toggleDeletePopup($event)"
     ></app-product>
   </div>
 
@@ -22,26 +23,28 @@
   <p-paginator
     [rows]="rows"
     [totalRecords]="totalRecords"
-    [rowsPerPageOptions]="[5, 10, 20]"
+    [rowsPerPageOptions]="[6, 12, 20]"
+    (onPageChange)="onPageChange($event)"
     #paginator
   ></p-paginator>
   <!-- #paginator - custom decorator for paginator -->
 </div>
 
 <!-- Edit popup -->
-<app-edit-popup>
-  [product]="selectedProduct" <!-- Accepts Product object -->
+<!-- Accepts Product object -->
+<!-- Method which will receive confirm emitter here, which will be triggered only on edit -->
+<app-edit-popup
+  [product]="selectedProduct"
   [(display)]="displayEditPopup"
   (confirm)="onConfirmEdit($event)"
-  <!-- Method which will receive confirm emitter here, which will be triggered only on edit -->
-  header="Edit Product"
+  header="Edit Product">
 </app-edit-popup>
 
 <!-- Add popup -->
-<app-edit-popup>
-  <!-- With two brackets binding: [(display)], it can also receive output events - double binding  -->
+<!-- With two brackets binding: [(display)], it can also receive output events - double binding  -->
+<app-edit-popup
   [(display)]="displayAddPopup"
   (confirm)="onConfirmAdd($event)"
-  header="Add Product"
+  header="Add Product">
 </app-edit-popup>
 

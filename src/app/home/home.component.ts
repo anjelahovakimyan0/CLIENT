@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ProductsService} from "../services/products.service";
 import {Product, Products} from "../../types";
 import {ProductComponent} from "../components/product/product.component";
@@ -15,7 +15,7 @@ import { ButtonModule } from 'primeng/button';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 
   constructor(
     private productsService: ProductsService,
@@ -74,7 +74,7 @@ export class HomeComponent {
   }
 
   onPageChange(event: any) {
-    console.log(event.page, event.rows);
+    this.fetchProducts(event.page, event.rows);
   }
 
   resetPaginator() {

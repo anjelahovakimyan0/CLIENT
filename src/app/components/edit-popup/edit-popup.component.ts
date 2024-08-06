@@ -1,11 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DialogModule } from 'primeng/dialog';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {DialogModule} from 'primeng/dialog';
 import {CommonModule} from "@angular/common";
 import {Product} from "../../../types";
-import {ButtonDirective} from "primeng/button";
-import {FormBuilder, FormsModule, ReactiveFormsModule, ValidatorFn, Validators} from "@angular/forms";
-import { RatingModule } from 'primeng/rating';
-import { ButtonModule } from 'primeng/button';
+import {ButtonDirective, ButtonModule} from "primeng/button";
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidatorFn, Validators} from "@angular/forms";
+import {RatingModule} from 'primeng/rating';
 
 @Component({
   selector: 'app-edit-popup',
@@ -14,13 +13,15 @@ import { ButtonModule } from 'primeng/button';
   templateUrl: './edit-popup.component.html',
   styleUrl: './edit-popup.component.scss'
 })
-export class EditPopupComponent {
+export class EditPopupComponent implements OnInit, OnChanges {
+
+  productForm!: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
   }
 
   @Input() display: boolean = false;
-  @Output() displayChange= new EventEmitter<boolean>();
+  @Output() displayChange = new EventEmitter<boolean>();
   @Input() header!: string;
 
   @Input() product: Product = {
@@ -44,19 +45,21 @@ export class EditPopupComponent {
     };
   }
 
-  productForm = this.formBuilder.group({
-    name: ['', [Validators.required, this.specialCharacterValidator()]], // [] - array of validators
-    image: [''],
-    price: ['', [Validators.required]],
-    rating: [0],
-  });
+  ngOnInit() {
+    this.productForm = this.formBuilder.group({
+      name: ['', [Validators.required, this.specialCharacterValidator()]], // [] - array of validators
+      image: [''],
+      price: ['', [Validators.required]],
+      rating: [0],
+    })
+  }
 
   ngOnChanges() {
     this.productForm.patchValue(this.product);
   }
 
   onConfirm() {
-    const { name, image, price, rating } = this.productForm.value;
+    const {name, image, price, rating} = this.productForm.value;
 
     this.confirm.emit({
       name: name || '',

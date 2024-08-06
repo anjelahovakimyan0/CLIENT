@@ -15,5 +15,4 @@ import {RouterLink, RouterLinkActive, RouterModule} from "@angular/router";
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-  imageUrl: string = "assets/images/oc-logo.svg";
 }
