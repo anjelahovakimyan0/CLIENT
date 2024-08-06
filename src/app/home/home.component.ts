@@ -69,10 +69,6 @@ export class HomeComponent implements OnInit {
     this.displayEditPopup = false;
   }
 
-  onProductOutput(product: Product) {
-    console.log(product, 'Output');
-  }
-
   onPageChange(event: any) {
     this.fetchProducts(event.page, event.rows);
   }
