@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Product} from "../../../types";
 import { RatingModule } from 'primeng/rating';
 import {FormsModule} from "@angular/forms";
@@ -17,7 +17,7 @@ import {TruncateNamePipe} from "../../pipes/truncate-name.pipe";
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss'
 })
-export class ProductComponent {
+export class ProductComponent implements OnInit {
 
   constructor(private confirmationService: ConfirmationService) {
   }
@@ -27,15 +27,6 @@ export class ProductComponent {
   @Input() product!: Product
   @Output() edit: EventEmitter<Product> = new EventEmitter<Product>();
   @Output() delete: EventEmitter<Product> = new EventEmitter<Product>();
-
-  truncateName(name: string) {
-    // not to show full name if the number of characters exides 16, otherwise show 16 characters of the name and add ...(three dots) in the end
-    if (name.length > 16) {
-      return name.slice(0, 16) + '...';
-    }
-
-    return name;
-  }
 
   editProduct() {
     this.edit.emit(this.product);
