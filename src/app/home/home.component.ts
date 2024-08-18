@@ -5,8 +5,8 @@ import {ProductComponent} from "../components/product/product.component";
 import {CommonModule} from "@angular/common";
 import {Paginator, PaginatorModule} from 'primeng/paginator';
 import {EditPopupComponent} from "../components/edit-popup/edit-popup.component";
-import {ButtonDirective} from "primeng/button";
-import { ButtonModule } from 'primeng/button';
+import {ButtonDirective, ButtonModule} from "primeng/button";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-home',
@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private productsService: ProductsService,
+    private http: HttpClient,
   ) { }
 
   @ViewChild('paginator') paginator: Paginator | undefined; // we can not to initialize this, it's optional, it can be also undefined as written
@@ -120,7 +121,8 @@ export class HomeComponent implements OnInit {
   }
 
   addProduct(product: Product) {
-    this.productsService.addProduct(`http://localhost:3000/clothes`, product)
+    // this.productsService.addProduct(`http://localhost:3000/clothes`, product)
+    this.http.post("http://localhost:8080/v1/products", product)
       .subscribe(
         {
           next: (data) => {
